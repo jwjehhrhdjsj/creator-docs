@@ -1,0 +1,29 @@
+ MarketplaceService = game:GetService("MarketplaceService")
+local Players = game:GetService("Players")
+
+local productId = 12345678 -- Reemplaza con el ID de tu producto
+
+local function onPurchaseFinished(player, purchasedProductId, wasPurchased)
+    if wasPurchased then
+        if purchasedProductId == productId then
+            local backpack = player:FindFirstChild("Backpack")
+            if backpack then
+                local tool = game.ServerStorage:FindFirstChild("SpecialTool"):Clone()
+                tool.Parent = backpack
+                player:SendNotification({
+                    Title = "Compra exitosa",
+                    Text = "¡Has recibido tu ítem especial!",
+                    Duration = 5
+                })
+            end
+        end
+    end
+end
+
+MarketplaceService.PromptProductPurchaseFinished:Connect(onPurchaseFinished)local button = script.Parent
+local productId = 12345678 -- Reemplaza con el ID de tu producto
+local MarketplaceService = game:GetService("MarketplaceService")
+
+button.MouseButton1Click:Connect(function()
+    MarketplaceService:PromptProductPurchase(game.Players.LocalPlayer, productId)
+end)
